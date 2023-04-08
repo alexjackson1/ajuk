@@ -133,13 +133,13 @@ function selectIndexProps(data: Queries.IndexPageQuery) {
       navigation: HERO_NAVIGATION,
     },
     footer: {
-      initials: "AJ",
-      fullName: "Alex Jackson",
+      initials: data?.initials?.value ?? "AJ",
+      fullName: data?.fullName?.value ?? "Alex Jackson",
       navigation: FOOTER_NAVIGATION,
     },
     main: {
       content: CONTENT,
-      coverImageUrl: ALT_PROFILE_URL,
+      coverImageUrl: data?.contents?.heroImage?.url ?? undefined,
     },
     aside: {
       latestPosts: LATEST_POSTS,
@@ -214,6 +214,51 @@ export const query = graphql`
     }
     navThemeHeading: contentfulMicrocopy(key: { eq: "NAV_THEME_HEADING" }) {
       value
+    }
+    profilePhoto: contentfulConfiguration(
+      key: { eq: "PROFILE_PHOTO_ENTRY_ID" }
+    ) {
+      entryId: value {
+        value
+      }
+    }
+    initials: contentfulMicrocopy(key: { eq: "INITIALS" }) {
+      value
+    }
+    fullName: contentfulMicrocopy(key: { eq: "FULL_NAME" }) {
+      value
+    }
+    contents: contentfulLandingPage(slug: { eq: "index" }) {
+      name
+      body {
+        raw
+        references {
+          ... on ContentfulSinglePage {
+            id
+            name
+          }
+          ... on ContentfulTag {
+            id
+            name
+          }
+          ... on ContentfulTimelinePage {
+            id
+            name
+          }
+        }
+      }
+      slug
+      featuredPosts
+      featuredReviews
+      featuredArticles
+      heroImage {
+        title
+        url
+        width
+        height
+        mimeType
+        filename
+      }
     }
   }
 `;

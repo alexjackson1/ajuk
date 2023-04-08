@@ -2,7 +2,7 @@ import React from "react";
 import { P } from "../common";
 
 interface CoverImageProps extends BasicProps<HTMLDivElement> {
-  url: string;
+  url?: string;
 }
 
 const CoverImage: React.FC<CoverImageProps> = ({
@@ -12,7 +12,7 @@ const CoverImage: React.FC<CoverImageProps> = ({
 }) => {
   return (
     <div
-      style={{ backgroundImage: `url(${url})` }}
+      style={url ? { backgroundImage: `url(${url})` } : {}}
       className={`bg-fixed bg-center bg-no-repeat bg-cover ${extraClasses}`}
     >
       {children}
@@ -25,7 +25,7 @@ type ContentNode = JSX.Element;
 interface RichContentProps extends BasicProps<HTMLDivElement> {
   // TODO: Work out content model and best way to select/render
   content: ContentNode[];
-  coverImageUrl: string;
+  coverImageUrl?: string;
 }
 
 const RichContent: React.FC<RichContentProps> = (props) => {

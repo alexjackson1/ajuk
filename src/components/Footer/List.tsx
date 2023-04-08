@@ -1,9 +1,9 @@
 import React from "react";
 import { GatsbyLinkProps, Link } from "gatsby";
 
-type FooterListProps = BasicProps<HTMLUListElement> & {
+interface FooterListProps extends BasicProps<HTMLUListElement> {
   heading: string;
-};
+}
 
 export const FooterList: React.FC<FooterListProps> = (props) => {
   const { heading, children, ...rest } = props;
@@ -22,11 +22,11 @@ export const FooterList: React.FC<FooterListProps> = (props) => {
   );
 };
 
-export const FooterLink: React.FC<
-  Omit<GatsbyLinkProps<{}>, "ref"> & { extraClasses?: string }
-> = ({ children, extraClasses, ...props }) => {
+type LinkProps = ExtraClasses<GatsbyLinkProps<{}>>;
+export const FooterLink: React.FC<Omit<LinkProps, "ref">> = (props) => {
+  const { children, extraClasses, ...rest } = props;
   return (
-    <Link className={`font-normal text-sm ${extraClasses}`} {...props}>
+    <Link className={`font-normal text-sm ${extraClasses}`} {...rest}>
       {children}
     </Link>
   );
